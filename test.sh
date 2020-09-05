@@ -15,7 +15,6 @@ assert() {
     echo "$input => $actual"
   else
     echo "$input => $expected expected, but got $actual"
-    make clean
     exit 1
   fi
 }
@@ -40,4 +39,3 @@ assert 1 "1>0"
 assert 1 "0<1"
 
 echo OK
-make clean

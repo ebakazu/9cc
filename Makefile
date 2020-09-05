@@ -5,15 +5,12 @@ build:
 	docker build -t $(IMAGE_TAG) .
 
 exec:
-	docker run --rm -it -v $(HOME)/9cc:/9cc $(IMAGE_TAG)
+	docker run --rm -it -v $(PWD):/9cc $(IMAGE_TAG)
 
 exec-test:
-	docker run --rm -v $(HOME)/9cc:/9cc -w /9cc $(IMAGE_TAG) make test
+	docker run --rm -v $(PWD):/9cc -w /9cc $(IMAGE_TAG) /9cc/test.sh
 
 9cc: 9cc.c
-
-test: 9cc
-	./test.sh
 
 clean:
 	rm -f 9cc *.o *~ tmp*

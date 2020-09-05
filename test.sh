@@ -1,4 +1,7 @@
 #!/bin/bash
+
+make 9cc
+
 assert() {
   expected="$1"
   input="$2"
@@ -12,6 +15,7 @@ assert() {
     echo "$input => $actual"
   else
     echo "$input => $expected expected, but got $actual"
+    make clean
     exit 1
   fi
 }
@@ -30,3 +34,4 @@ assert 2 "-(1+3)+6"
 assert 20 "-4*-5"
 
 echo OK
+make clean

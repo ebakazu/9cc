@@ -32,6 +32,12 @@ assert 4 "(3+5)/2"
 assert 5 "-10+15"
 assert 2 "-(1+3)+6"
 assert 20 "-4*-5"
+assert 1 "0==0"
+assert 0 "0!=0"
+assert 1 "0>=0"
+assert 1 "0<=0"
+assert 1 "1>0"
+assert 1 "0<1"
 
 echo OK
 make clean

@@ -30,6 +30,14 @@ bool consume(char *op) {
     return true;
 }
 
+Token *consume_ident() {
+    if (token->kind != TK_IDENT)
+        return NULL;
+    Token *ident = token;
+    token = token->next;
+    return ident;
+}
+
 // 次のトークンが期待している記号のときには､ トークンを1つ読み進める｡
 // それ以外の場合にはエラーを報告する｡
 void expect(char *op) {
@@ -73,6 +81,9 @@ void error_at(char *loc, char *fmt, ...) {
     exit(1);
 }
 
+bool at_eof() {
+    return token->kind == TK_EOF;
+}
 
 // 入力文字列 p をトークナイズしてそれを返す
 Token *tokenize(char *p) {
@@ -93,10 +104,15 @@ Token *tokenize(char *p) {
             continue;
         }
 
-        if (*p == '+' || *p == '-' || *p == '*' || *p == '/' || *p == '(' || *p == ')' || *p == '<' || *p == '>') {
+        if (*p == '+' || *p == '-' || *p == '*' || *p == '/' || *p == '(' || *p == ')' || *p == '<' || *p == '>' || *p == '=' || *p == ';') {
             cur = new_token(TK_RESERVED, cur, p++, 1);
             // p++; 後置インクリメントは new_token 実行後にインクリメントの処理が入る
             
+            continue;
+        }
+
+        if ('a' <= *p && *p <= 'z') {
+            cur = new_token(TK_IDENT, cur, p++, 1);
             continue;
         }
 

@@ -45,6 +45,16 @@ struct Node {
     int offset;    // ノードの型がND_LVARの場合に使用 ベースポインタからのオフセット
 };
 
+typedef struct LVar LVar;
+
+// ローカル変数
+struct LVar {
+    LVar *next;  // 次の変数もしくはNULL
+    char *name;  // 変数の名前
+    int len;     // 変数の名前の長さ
+    int offset;  // RBPからのオフセット
+};
+
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 void program();
@@ -57,6 +67,7 @@ Node *add();
 Node *mul();
 Node *primary();
 Node *unary();
+LVar *find_lvar(Token *tok);
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 bool consume(char *op);
@@ -72,3 +83,5 @@ void gen(Node *node);
 extern char *user_input;
 extern Token *token;
 extern Node *code[];
+extern char *identifer;
+extern LVar *locals;

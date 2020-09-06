@@ -9,6 +9,9 @@
 // 入力プログラム
 char *user_input;
 
+// 識別子で使用可能な文字
+char *identifer ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
+
 Token *token;
 
 // 新しいトークンを作成して cur に繋げる
@@ -111,15 +114,17 @@ Token *tokenize(char *p) {
             continue;
         }
 
-        if ('a' <= *p && *p <= 'z') {
-            cur = new_token(TK_IDENT, cur, p++, 1);
-            continue;
-        }
-
         if (isdigit(*p)) {
             cur = new_token(TK_NUM, cur, p, 1);
             // strtolは base で変換できない文字までポインタを進める
             cur->val = strtol(p, &p, 10);
+            continue;
+        }
+
+        int len_identifer = strspn(p, identifer);
+        if (len_identifer) {
+            cur = new_token(TK_IDENT, cur, p, len_identifer);
+            p += len_identifer;
             continue;
         }
 

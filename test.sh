@@ -38,5 +38,10 @@ assert 1 "0<=0;"
 assert 1 "1>0;"
 assert 1 "0<1;"
 assert 1 "a=1+0;"
+assert 1 "foo=1+0;"
+assert 1 "FOO=1+0;"
+assert 1 "foo1=1+0;"
+assert 1 "_=1+0;"
+assert 1 "foo=3+0;bar=1+0;"
 
 echo OK

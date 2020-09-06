@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include "9cc.h"
 
@@ -8,11 +9,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    locals = calloc(1, sizeof(LVar));
     user_input = argv[1];
     token = tokenize(user_input);
-    // Node *node = expr();
     program();
-    // code[0] = expr();
 
     printf(".intel_syntax noprefix\n");
     printf(".globl main\n");

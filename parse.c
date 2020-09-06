@@ -28,7 +28,15 @@ void program() {
 }
 
 Node *stmt() {
-    Node *node = expr();
+    Node *node;
+    if (consume_return()) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_RETURN;
+        node->lhs = expr();
+    } else{
+        node = expr();
+    }
+
     expect(";");
     return node;
 }
@@ -130,8 +138,8 @@ Node *primary() {
             lvar->next = locals;
             lvar->name = tok->str;
             lvar->len = tok->len;
-            node->offset = lvar->offset;
             lvar->offset = locals->offset + 8;
+            node->offset = lvar->offset;
             locals = lvar;
         }
         return node;

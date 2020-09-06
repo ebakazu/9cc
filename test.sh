@@ -43,5 +43,9 @@ assert 1 "FOO=1+0;"
 assert 1 "foo1=1+0;"
 assert 1 "_=1+0;"
 assert 1 "foo=3+0;bar=1+0;"
+assert 1 "return 1;"
+assert 2 "foo=2;return foo;"
+assert 2 "foo=1;return foo + 1;"
+assert 3 "foo=1;bar=2;return foo + bar;"
 
 echo OK

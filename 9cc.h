@@ -5,6 +5,7 @@ typedef enum {
     TK_RESERVED, // 記号
     TK_IDENT,    // 識別子
     TK_NUM, // 整数トークン
+    TK_RETURN, // return文
     TK_EOF, // 入力の終わりを示すトークン
 } TokenKind;
 
@@ -31,6 +32,7 @@ typedef enum {
     ND_LE, // <=
     ND_ASSIGN, // =
     ND_LVAR,   // ローカル変数
+    ND_RETURN, // return文
     ND_NUM, // 整数
 } NodeKind;
 
@@ -71,6 +73,7 @@ LVar *find_lvar(Token *tok);
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 bool consume(char *op);
+bool consume_return();
 Token *consume_ident();
 void expect(char *op);
 int expect_number();

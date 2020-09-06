@@ -33,6 +33,14 @@ bool consume(char *op) {
     return true;
 }
 
+bool consume_return() {
+    if (token->kind == TK_RETURN) {
+        token = token->next;
+        return true;
+    };
+    return false;
+}
+
 Token *consume_ident() {
     if (token->kind != TK_IDENT)
         return NULL;
@@ -45,7 +53,7 @@ Token *consume_ident() {
 // それ以外の場合にはエラーを報告する｡
 void expect(char *op) {
     if (token->kind != TK_RESERVED || strlen(op) != token->len || memcmp(token->str, op, token->len)) 
-        error_at(token->str, "'%c'ではありません", op);
+        error_at(token->str, "'%s'ではありません", op);
     token = token->next;
 }
 
@@ -67,7 +75,7 @@ void error(char *fmt, ...) {
     va_start(ap, fmt);
     vfprintf(stderr, fmt, ap);
     fprintf(stderr, "\n");
-    exit(1);
+    // exit(1);
 }
 
 // エラー箇所を表示する関数
@@ -118,6 +126,12 @@ Token *tokenize(char *p) {
             cur = new_token(TK_NUM, cur, p, 1);
             // strtolは base で変換できない文字までポインタを進める
             cur->val = strtol(p, &p, 10);
+            continue;
+        }
+
+        if (strncmp(p, "return", 6) == 0 && strspn(p + 6, identifer) == 0) {
+            cur = new_token(TK_RETURN, cur, p, 6);
+            p += 6;
             continue;
         }
 
